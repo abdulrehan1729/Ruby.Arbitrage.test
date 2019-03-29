@@ -1,11 +1,14 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.3.3'
+ruby '2.6.2'
 
 #rest-client
 gem 'rest-client', '~> 1.8'
-
+# gem 'httparty'
+#Sidekiq
+gem 'sidekiq'
+gem 'sinatra', github: 'sinatra/sinatra'
 
 #Redis
 gem 'redis'

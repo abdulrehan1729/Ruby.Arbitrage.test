@@ -1,46 +1,45 @@
 class BinanceController < ApplicationController
 
-    layout false
+  layout false
 
-    def index
-        puts $redis.hgetall('binance')
-        # puts $redis.hgetall('hitbtc').keys        
+  def index
+    HitbtcApiJob.perform_later
+    BinanceApiJob.perform_later
+    HitbtcApiWorker.perform_async
+    BinanceApiWorker.perform_async  
+    while true 
+      sleep 2
+      arbitrage
     end
-
-#Binance API 
-    def bin_market
-        res = RestClient.get('https://api.binance.com/api/v1/ticker/24hr')
-        res = JSON.parse(res.body)
-        res.each do |val|
-            $redis.hset("binance",val['symbol'],val.to_json.to_s)
-        end
-    end
-
-    EM.run {
-     ws = Faye::WebSocket::Client.new("wss://stream.binance.com:9443/ws/bnbbtc@ticker")
-
-  ws.on :open do |event|
-    p [:open]
-    ws.send('Hello, world!')
   end
 
-  ws.on :message do |event|
-    p [:message, event.data]
-  end
-
-  ws.on :close do |event|
-    p [:close, event.code, event.reason]
-    ws = nil
-  end
-}
-
-#HitBTC API
-    def hit_market
-        responce = RestClient.get('https://api.hitbtc.com/api/2/public/ticker')
-        responce = JSON.parse(responce.body)
-        return responce.map do |val|
-          $redis.hset("hitbtc",val['symbol'],val.to_json.to_s) 
-        end
+  def arbitrage
+    $redis.hgetall('binanceSocket').each do|key,bin_val|
+      hitkey = $redis.hget('hitbtcSocket',key)
+      if hitkey != nil
         
+        #HitBtc variables
+        hitkey = JSON.parse(hitkey)
+        hitLastPrice = hitkey['last'].to_f
+        hitAskPrice = hitkey['ask'].to_f
+        hitBidPrice = hitkey['bid'].to_f
+
+        #Binance variables
+        bin_val = JSON.parse(bin_val.gsub('=>',':'))
+        binLatestPrice = bin_val['c'].to_f
+        binAskPrice = bin_val['a'].to_f
+        binBidPrice = bin_val['b'].to_f
+        
+        if binLatestPrice > 0 && hitLastPrice > 0
+          if hitLastPrice > binLatestPrice
+            arb_per = ((hitAskPrice-binBidPrice)*100/hitAskPrice).round(4)
+            puts "HitBTC : #{key} : #{arb_per}%"
+          else
+            arb_per = ((binAskPrice-hitBidPrice)*100/binAskPrice).round(4)
+            puts "Binance : #{key} : #{arb_per}%"
+          end
+        end
+      end
     end
+  end
 end
