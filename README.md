@@ -1,25 +1,34 @@
-# README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# Arbitrage(Binance-HitBTC)
 
-Things you may want to cover:
+This project made by using Ruby on Rails framwork which provides real time changes between the markets and give the percentage difference in price between similar crypto-currencies in HitBTC and Binance which helps the trader to make more profit.
 
-* Ruby version
+## Getting Started
 
-* System dependencies
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
-* Configuration
+### Prerequisites
+Clone this repository into your machine and set up your machine as per the instructions below
 
-* Database creation
+To make your machine envorinment suitable for this app please follow the links below and install all the dependencies
 
-* Database initialization
+* Ruby installation guide(Required version 2.6.2)
+https://www.ruby-lang.org/en/documentation/installation/
 
-* How to run the test suite
+* Rails installation guide(Required version 5.2.2.1)
+http://railsinstaller.org/en
 
-* Services (job queues, cache servers, search engines, etc.)
+* Redis(Stable version is Recommended)
+https://redis.io/download
 
-* Deployment instructions
+After installing all these dependencies open your terminal open this projects directory and run the below command to install all the ruby gem files into your machine 
 
-* ...
-"# RubyArb" 
+```
+bundle install
+```
+## Authors
+
+* **Abdul Rehan** 
+
+
+
