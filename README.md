@@ -26,6 +26,8 @@ After installing all these dependencies open your terminal open this projects di
 ```
 bundle install
 ```
+Now your machine is ready to use this application enjoy :)
+
 ## Authors
 
 * **Abdul Rehan** 
