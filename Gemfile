@@ -18,7 +18,7 @@ gem 'redis-namespace'
 gem 'eventmachine', '~> 1.2.7'
 
 #Websocket
-gem 'faye-websocket', '~> 0.10.3'
+gem 'faye-websocket', '~> 0.11.0'
 
 #HTTParty
 gem 'httparty', '~> 0.13.7'
