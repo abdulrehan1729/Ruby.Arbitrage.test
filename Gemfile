@@ -21,7 +21,7 @@ gem 'eventmachine', '~> 1.2.7'
 gem 'faye-websocket', '~> 0.10.3'
 
 #HTTParty
-gem 'httparty', '~> 0.13.7'
+gem 'httparty', '~> 0.21.0'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.2', '>= 5.2.2.1'
 # Use sqlite3 as the database for Active Record
